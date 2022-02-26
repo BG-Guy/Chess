@@ -95,7 +95,7 @@ function cellClicked(elCell) {
     gBoard[currCell.i][currCell.j]
     console.log("🚀 ~ file: main.js ~ line 96 ~ cellClicked ~ gBoard[currCell.i][currCell.j]", gBoard[currCell.i][currCell.j])
     // if the target is marked - move the piece!
-    if (elCell.classList.contains('mark')) {
+    if (elCell.classList.contains('mark') || elCell.classList.contains('can-eat')) {
         movePiece(gSelectedElCell, elCell);
         cleanBoard();
         return;
@@ -168,9 +168,9 @@ function getCellCoord(strCellId) {
 }
 
 function cleanBoard() {
-    var elTds = document.querySelectorAll('.mark, .selected');
+    var elTds = document.querySelectorAll('.mark, .selected, .can-eat');
     for (var i = 0; i < elTds.length; i++) {
-        elTds[i].classList.remove('mark', 'selected');
+        elTds[i].classList.remove('mark', 'selected', 'can-eat');
     }
 }
 
@@ -181,9 +181,10 @@ function getSelector(coord) {
 function isEmptyCell(nextCoord, pieceCoord) {
     var playerPiece = gBoard[pieceCoord.i][pieceCoord.j]
     var possibleCell = gBoard[nextCoord.i][nextCoord.j]
-    if (possibleCell.isWhite === null || possibleCell.isWhite != playerPiece.isWhite) {
-        return true
-    }
+    var elCurrCell = document.querySelector(getSelector(nextCoord))
+    
+    if (possibleCell.isWhite == !playerPiece.isWhite) elCurrCell.classList.add('can-eat')
+    return (possibleCell.isWhite === null)
 }
 
 
