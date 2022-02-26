@@ -38,11 +38,13 @@ function buildBoard() {
             if (i === 1) {
                 cell.piece = PAWN_BLACK;
                 cell.isEmpty = false
+                cell.isWhite = false
             }
 
             if (i === 6) {
                 cell.piece = PAWN_WHITE;
                 cell.isEmpty = false
+                cell.isWhite = true
             }
         }
     }
@@ -89,7 +91,9 @@ function renderBoard(board) {
 
 
 function cellClicked(elCell) {
-
+    var currCell = getCellCoord(elCell.id)
+    gBoard[currCell.i][currCell.j]
+    console.log("🚀 ~ file: main.js ~ line 96 ~ cellClicked ~ gBoard[currCell.i][currCell.j]", gBoard[currCell.i][currCell.j])
     // if the target is marked - move the piece!
     if (elCell.classList.contains('mark')) {
         movePiece(gSelectedElCell, elCell);
@@ -132,19 +136,19 @@ function cellClicked(elCell) {
 
 function movePiece(elFromCell, elToCell) {
 
-    var fromCoord = getCellCoord(elFromCell.id);
-    var toCoord = getCellCoord(elToCell.id);
-    var fromCell = gBoard[fromCoord.i][fromCoord.j]
-    var toCell = gBoard[toCoord.i][toCoord.j]
+    let fromCoord = getCellCoord(elFromCell.id);
+    let toCoord = getCellCoord(elToCell.id);
+    let fromCell = gBoard[fromCoord.i][fromCoord.j]
+    let toCell = gBoard[toCoord.i][toCoord.j]
     // update the MODEL
-    var piece = fromCell.piece;
-    fromCell.piece = '';
+    let piece = fromCell.piece;
+    let pieceColor = fromCell.isWhite
     toCell.piece = piece;
+    gBoard[fromCoord.i][fromCoord.j] = {isEmpty: true, piece: '', isWhite: null}
+    gBoard[toCoord.i][toCoord.j] = {isEmpty: false, piece: piece, isWhite: pieceColor}    
     // update the DOM
-    elFromCell.innerText = fromCell.piece
+    elFromCell.innerText = ''
     elToCell.innerText = toCell.piece
-    fromCell.isEmpty = true
-    toCell.isEmpty = false
     
 }
 
@@ -174,17 +178,12 @@ function getSelector(coord) {
     return '#cell-' + coord.i + '-' + coord.j
 }
 
-function isEmptyCell(coord, isWhite) {
-    var selector = getSelector(coord)
-    var elSelectedCell = document.querySelector('.selected') 
-    var possibleCell = gBoard[coord.i][coord.j]
-    return possibleCell.isEmpty || possibleCell.piece !== elSelectedCell.innerHTML
-}
-
-function isEnemyPiece(coord) {
-    var elSelectedCell = document.querySelector(`#${getSelector(coord)}`)
-    var pieceColor = elSelectedCell.innerHTML 
-
+function isEmptyCell(nextCoord, pieceCoord) {
+    var playerPiece = gBoard[pieceCoord.i][pieceCoord.j]
+    var possibleCell = gBoard[nextCoord.i][nextCoord.j]
+    if (possibleCell.isWhite === null || possibleCell.isWhite != playerPiece.isWhite) {
+        return true
+    }
 }
 
 
@@ -193,13 +192,13 @@ function getAllPossibleCoordsPawn(pieceCoord, isWhite) {
 
     var diff = (isWhite) ? - 1 : 1;
     var nextCoord = { i: pieceCoord.i + diff, j: pieceCoord.j };
-    if (isEmptyCell(nextCoord)) res.push(nextCoord);
+    if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord);
     else return res;
 
     if ((pieceCoord.i === 1 && !isWhite) || (pieceCoord.i === 6 && isWhite)) {
         diff *= 2;
         nextCoord = { i: pieceCoord.i + diff, j: pieceCoord.j };
-        if (isEmptyCell(nextCoord)) res.push(nextCoord);
+        if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord);
     }
     return res;
 }
@@ -208,37 +207,59 @@ function getAllPossibleCoordsPawn(pieceCoord, isWhite) {
 // finished
 function getAllPossibleCoordsRook(pieceCoord) {
     var res = [];
+    var nextCoord
     // Move rook up
-    for (let i = pieceCoord.i; i < 8; i + 1) {
-        var cord = {i: pieceCoord.i + 1, j: pieceCoord.j}
-        if (isEmptyCell(cord)) res.push(cord);
-        else continue
+    nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j}
+    for (let i = nextCoord.i; i < 8; i++) {
+        nextCoord = {i: i, j: pieceCoord.j}
+        console.log("🚀 ~ file: main.js ~ line 212 ~ getAllPossibleCoordsRook ~ nextCoord", nextCoord)
+        if (!isEmptyCell(nextCoord, pieceCoord)) break;
+        res.push(nextCoord);
         
     }
 
-    //Move rook down
-    for (let i = pieceCoord.i; i >= 0; i--) {
-        var cord = {i: pieceCoord.i - 1, j: pieceCoord.j}
-        if (isEmptyCell(cord)) res.push(cord);
-        else continue
 
-    }
+
+    //Move rook down
+    nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j}
+    for (let i = nextCoord.i; i >= 0; i--) {
+            nextCoord = {i: i, j: pieceCoord.j}
+            console.log("🚀 ~ file: main.js ~ line 212 ~ getAllPossibleCoordsRook ~ nextCoord", nextCoord)
+
+            if (!isEmptyCell(nextCoord, pieceCoord)) break;
+            res.push(nextCoord);
+
+        }
+
+    
 
     //Move rook right
-    for (let j = pieceCoord.j; j < 8; j++) {
-        var cord = {i: pieceCoord.i, j: pieceCoord.j + 1}
-        if (isEmptyCell(cord)) res.push(cord);
-        else continue
-    }
+    nextCoord = {i: pieceCoord.i, j: pieceCoord.j + 1}
+    for (let j = nextCoord.j; j < 8; j++) {
+            nextCoord = {i: pieceCoord.i, j: j}
+            console.log("🚀 ~ file: main.js ~ line 212 ~ getAllPossibleCoordsRook ~ nextCoord", nextCoord)
+
+            if (!isEmptyCell(nextCoord, pieceCoord)) break;
+            res.push(nextCoord);
+
+        }
+    
 
     //Move rook left
-    for (let j = pieceCoord.j; j >= 0 ; j--) {
-        var cord = {i: pieceCoord.i , j: pieceCoord.j - 1}
-        if (isEmptyCell(cord)) res.push(cord);
-        else continue
-    }
+    nextCoord = {i: pieceCoord.i , j: pieceCoord.j - 1}
+    for (let j = nextCoord.j; j >= 0 ; j--) {
+            nextCoord = {i: pieceCoord.i, j: j}
+            console.log("🚀 ~ file: main.js ~ line 212 ~ getAllPossibleCoordsRook ~ nextCoord", nextCoord)
 
-    return res;
+            if (!isEmptyCell(nextCoord, pieceCoord)) break;
+            res.push(nextCoord);
+
+        
+    
+
+        }
+        console.log("🚀 ~ file: main.js ~ line 262 ~ getAllPossibleCoordsRook ~ res", res)
+        return res;
 }
 
 
@@ -278,34 +299,34 @@ function getAllPossibleCoordsBishop(pieceCoord) {
 }
 
 // Finished
-function getAllPossibleCoordsKnight(pieceCoord, isWhite) {
+function getAllPossibleCoordsKnight(pieceCoord) {
     var res = [];
     var nextCoord;
 // Knight moves step right two steps up 
     nextCoord = {i: pieceCoord.i - 2, j: pieceCoord.j + 1}
     if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
-                if (isEmptyCell(nextCoord, isWhite)) res.push(nextCoord)
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
 
     }
 
 // Knight moves step right two steps down
     nextCoord = {i: pieceCoord.i - 2, j: pieceCoord.j - 1}
     if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
-                if (isEmptyCell(nextCoord, isWhite)) res.push(nextCoord)
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
 
     }
 
 // Knight moves step left two steps up
     nextCoord = {i: pieceCoord.i + 2, j: pieceCoord.j - 1}
     if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >=0) {
-                if (isEmptyCell(nextCoord, isWhite)) res.push(nextCoord)
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
 
     }
 
 // Knight moves step left two steps down
     nextCoord = {i: pieceCoord.i + 2, j: pieceCoord.j + 1}
     if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
-                if (isEmptyCell(nextCoord, isWhite)) res.push(nextCoord)
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
 
     }
 
@@ -313,28 +334,28 @@ function getAllPossibleCoordsKnight(pieceCoord, isWhite) {
 
     nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j + 2}
     if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
-                if (isEmptyCell(nextCoord, isWhite)) res.push(nextCoord)
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
 
     }
 
 //Knight moves two step right one step down
     nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j + 2}
     if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
-                if (isEmptyCell(nextCoord, isWhite)) res.push(nextCoord)
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
 
     }
 
 //Knight moves two step left one step down
     nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j - 2}
     if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
-                if (isEmptyCell(nextCoord, isWhite)) res.push(nextCoord)
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
 
     }
 
 //Knight moves two steps left one step up
     nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j - 2}
     if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
-                if (isEmptyCell(nextCoord, isWhite)) res.push(nextCoord)
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
 
     }
 
