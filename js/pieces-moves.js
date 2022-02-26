@@ -110,7 +110,7 @@ function getAllPossibleCoordsBishop(pieceCoord) {
 function getAllPossibleCoordsRook(currCell) {
     var res = [];
     // Move rook up
-    openCells(currCell, )
+    getPossibleCoords(1)
 
     //Move rook down
     
