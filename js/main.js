@@ -58,6 +58,18 @@ function buildBoard() {
     board[7][2].piece = board[7][5].piece = BISHOP_WHITE;
     board[7][3].piece = QUEEN_WHITE;
     board[7][4].piece = KING_WHITE;
+    
+    board[0][0].isEmpty = board[0][7].isEmpty = false
+    board[0][1].isEmpty = board[0][6].isEmpty = false
+    board[0][2].isEmpty = board[0][5].isEmpty = false
+    board[0][3].isEmpty = false
+    board[0][4].isEmpty = false
+
+    board[7][0].isEmpty = board[7][7].isEmpty = false
+    board[7][1].isEmpty = board[7][6].isEmpty = false
+    board[7][2].isEmpty = board[7][5].isEmpty = false
+    board[7][3].isEmpty = false
+    board[7][4].isEmpty = false
     console.table(board);
     return board;
 
@@ -103,7 +115,7 @@ function cellClicked(elCell) {
 
     // console.log('elCell.id: ', elCell.id);
     var cellCoord = getCellCoord(elCell.id);
-    var piece = gBoard[cellCoord.i][cellCoord.j];
+    var piece = gBoard[cellCoord.i][cellCoord.j].piece;
 
     var possibleCoords = [];
     switch (piece) {
@@ -125,6 +137,7 @@ function cellClicked(elCell) {
             break;
 
     }
+    console.log(possibleCoords);
     markCells(possibleCoords);
 }
 
@@ -134,9 +147,9 @@ function movePiece(elFromCell, elToCell) {
     var toCoord = getCellCoord(elToCell.id);
 
     // update the MODEL
-    var piece = gBoard[fromCoord.i][fromCoord.j];
-    gBoard[fromCoord.i][fromCoord.j] = '';
-    gBoard[toCoord.i][toCoord.j] = piece;
+    var piece = gBoard[fromCoord.i][fromCoord.j].piece;
+    gBoard[fromCoord.i][fromCoord.j].piece = '';
+    gBoard[toCoord.i][toCoord.j].piece = piece;
     // update the DOM
     elFromCell.innerText = '';
     elToCell.innerText = piece;
@@ -170,7 +183,7 @@ function getSelector(coord) {
 }
 
 function isEmptyCell(coord) {
-    return gBoard[coord.i][coord.j] === ''
+    return gBoard[coord.i][coord.j].isEmpty
 }
 
 
@@ -269,36 +282,60 @@ function getAllPossibleCoordsKnight(pieceCoord) {
     var nextCoord;
 // Knight moves step right two steps up 
     nextCoord = {i: pieceCoord.i - 2, j: pieceCoord.j + 1}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord)) res.push(nextCoord)
+
+    }
 
 // Knight moves step right two steps down
     nextCoord = {i: pieceCoord.i - 2, j: pieceCoord.j - 1}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord)) res.push(nextCoord)
+
+    }
 
 // Knight moves step left two steps up
     nextCoord = {i: pieceCoord.i + 2, j: pieceCoord.j - 1}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >=0) {
+                if (isEmptyCell(nextCoord)) res.push(nextCoord)
+
+    }
 
 // Knight moves step left two steps down
     nextCoord = {i: pieceCoord.i + 2, j: pieceCoord.j + 1}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord)) res.push(nextCoord)
+
+    }
 
 //Knight moves two step right one step up
 
     nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j + 2}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord)) res.push(nextCoord)
+
+    }
 
 //Knight moves two step right one step down
     nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j + 2}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord)) res.push(nextCoord)
+
+    }
 
 //Knight moves two step left one step down
     nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j - 2}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord)) res.push(nextCoord)
+
+    }
 
 //Knight moves two steps left one step up
     nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j - 2}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord)) res.push(nextCoord)
+
+    }
 
     return res;
 }

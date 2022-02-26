@@ -39,28 +39,28 @@ function getAllPossibleCoordsKnight(pieceCoord) {
     var nextCoord;
 // Knight moves step right two steps up 
     nextCoord = {i: pieceCoord.i - 2, j: pieceCoord.j + 1}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
 
 // Knight moves step right two steps down
     nextCoord = {i: pieceCoord.i - 2, j: pieceCoord.j - 1}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
 
 // Knight moves step left two steps up
     nextCoord = {i: pieceCoord.i + 2, j: pieceCoord.j - 1}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
 
 // Knight moves step left two steps down
     nextCoord = {i: pieceCoord.i + 2, j: pieceCoord.j + 1}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
 
 //Knight moves two step right one step up
 
     nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j + 2}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
 
 //Knight moves two step right one step down
     nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j + 2}
-    res.push(nextCoord)
+    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
 
 //Knight moves two step left one step down
     nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j - 2}
