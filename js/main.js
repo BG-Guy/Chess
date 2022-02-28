@@ -131,6 +131,10 @@ function cellClicked(elCell) {
         case QUEEN_BLACK:
         case QUEEN_WHITE:
             possibleCoords = getAllPossibleQueen(cellCoord, piece === QUEEN_WHITE)
+            break;
+        case KING_BLACK:
+        case KING_WHITE:
+            possibleCoords = getAllPossibleKing(cellCoord, piece === KNIGHT_WHITE)
 
     }
     console.log(possibleCoords);
@@ -382,22 +386,25 @@ function getAllPossibleKing(pieceCoord) {
     
 
     //Move up
-    res.push({i: pieceCoord.i - 1, j: pieceCoord.j})
+
+    if (isEmptyCell(({i: pieceCoord.i - 1, j: pieceCoord.j}), pieceCoord)) res.push({i: pieceCoord.i - 1, j: pieceCoord.j})
     
     //Move left and up
-    res.push({i: pieceCoord.i - 1, j: pieceCoord.j - 1})
+    if (isEmptyCell(({i: pieceCoord.i - 1, j: pieceCoord.j - 1}), pieceCoord)) res.push({i: pieceCoord.i - 1, j: pieceCoord.j - 1})
 
     //Move right and up
-    res.push({i: pieceCoord.i - 1, j: pieceCoord.j + 1})
+    if (isEmptyCell(({i: pieceCoord.i - 1, j: pieceCoord.j + 1}), pieceCoord)) res.push({i: pieceCoord.i - 1, j: pieceCoord.j + 1})
 
     //Move down
-    res.push({i: pieceCoord.i + 1, j: pieceCoord.j})
+    if (isEmptyCell(({i: pieceCoord.i + 1, j: pieceCoord.j}), pieceCoord)) res.push({i: pieceCoord.i + 1, j: pieceCoord.j})
 
     //Move down and right
-    res.push({i: pieceCoord.i + 1, j: pieceCoord.j + 1})
+    if (isEmptyCell(({i: pieceCoord.i + 1, j: pieceCoord.j + 1}), pieceCoord)) res.push({i: pieceCoord.i + 1, j: pieceCoord.j + 1})
 
     //Move down and left
-    res.push({i: pieceCoord.i + 1, j: pieceCoord.j - 1})
+    if (isEmptyCell(({i: pieceCoord.i + 1, j: pieceCoord.j - 1}), pieceCoord)) res.push({i: pieceCoord.i + 1, j: pieceCoord.j - 1})
+    if (isEmptyCell(({i: pieceCoord.i, j: pieceCoord.j + 1}), pieceCoord)) res.push({i: pieceCoord.i, j: pieceCoord.j + 1})
+    if (isEmptyCell(({i: pieceCoord.i, j: pieceCoord.j - 1}), pieceCoord)) res.push({i: pieceCoord.i, j: pieceCoord.j - 1})
 
     return res
 
