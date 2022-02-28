@@ -17,6 +17,7 @@ const PAWN_BLACK = '♟';
 // The Chess Board
 var gBoard;
 var gSelectedElCell = null;
+var gWhiteTurn = true
 
 function restartGame() {
     gBoard = buildBoard();
@@ -93,6 +94,7 @@ function renderBoard(board) {
 function cellClicked(elCell) {
     var currCell = getCellCoord(elCell.id)
     gBoard[currCell.i][currCell.j]
+    
     console.log("🚀 ~ file: main.js ~ line 96 ~ cellClicked ~ gBoard[currCell.i][currCell.j]", gBoard[currCell.i][currCell.j])
     // if the target is marked - move the piece!
     if (elCell.classList.contains('mark') || elCell.classList.contains('can-eat')) {
@@ -102,7 +104,7 @@ function cellClicked(elCell) {
     }
 
     cleanBoard();
-
+    if (!gWhiteTurn === gBoard[currCell.i][currCell.j].isWhite) return
     elCell.classList.add('selected');
     gSelectedElCell = elCell;
 
@@ -142,7 +144,6 @@ function cellClicked(elCell) {
 }
 
 function movePiece(elFromCell, elToCell) {
-
     let fromCoord = getCellCoord(elFromCell.id);
     let toCoord = getCellCoord(elToCell.id);
     let fromCell = gBoard[fromCoord.i][fromCoord.j]
@@ -156,7 +157,8 @@ function movePiece(elFromCell, elToCell) {
     // update the DOM
     elFromCell.innerText = ''
     elToCell.innerText = toCell.piece
-    
+    gWhiteTurn = !gWhiteTurn
+
 }
 
 function markCells(coords) {
