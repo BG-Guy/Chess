@@ -1,139 +1,223 @@
-function getAllPossibleQueen(pieceCoord) {
-    var res = []
-
-    res.push(getAllPossibleCoordsBishop(pieceCoord))
-
-    res.push(getAllPossibleCoordsRook(pieceCoord))
-
-    return res
-}
-
-function getAllPossibleKing(pieceCoord) {
-    var res = [];
-    
-
-    //Step up
-    res.push({i: pieceCoord.i - 1, j: pieceCoord.j})
-    
-    //Step left and up
-    res.push({i: pieceCoord.i - 1, j: pieceCoord.j - 1})
-
-    //Step right and up
-    res.push({i: pieceCoord.i - 1, j: pieceCoord.j + 1})
-
-    //Step down
-    res.push({i: pieceCoord.i + 1, j: pieceCoord.j})
-
-    //Step down and right
-    res.push({i: pieceCoord.i + 1, j: pieceCoord.j + 1})
-
-    //Step down and left
-    res.push({i: pieceCoord.i + 1, j: pieceCoord.j - 1})
-
-    return res
-
-}
-
-function getAllPossibleCoordsKnight(pieceCoord) {
-    var res = [];
-    var nextCoord;
-// Knight moves step right two steps up 
-    nextCoord = {i: pieceCoord.i - 2, j: pieceCoord.j + 1}
-    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
-
-// Knight moves step right two steps down
-    nextCoord = {i: pieceCoord.i - 2, j: pieceCoord.j - 1}
-    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
-
-// Knight moves step left two steps up
-    nextCoord = {i: pieceCoord.i + 2, j: pieceCoord.j - 1}
-    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
-
-// Knight moves step left two steps down
-    nextCoord = {i: pieceCoord.i + 2, j: pieceCoord.j + 1}
-    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
-
-//Knight moves two step right one step up
-
-    nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j + 2}
-    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
-
-//Knight moves two step right one step down
-    nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j + 2}
-    if (nextCoord.i < 8 && nextCoord.i > 0 && nextCoord.j < 8 && nextCoord.j > 0) res.push(nextCoord)
-
-//Knight moves two step left one step down
-    nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j - 2}
-    res.push(nextCoord)
-
-//Knight moves two steps left one step up
-    nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j - 2}
-    res.push(nextCoord)
-
-    return res;
-}
-
-function getAllPossibleCoordsBishop(pieceCoord) {
-    var res = [];
-    
-    // White turn right and forward
-    for (var idx = pieceCoord.j + 1; idx < 8; idx++) {
-        var coord = { i: pieceCoord.i - 1, j: idx };
-        if (!isEmptyCell(coord)) break;
-        res.push(coord);
-    }
-
-    //White turn left and up
-    for (var idx = pieceCoord.j + 1; idx >= 0; idx--) {
-        var coord = { i: pieceCoord.i - 1, j: idx };
-        if (!isEmptyCell(coord)) break;
-        res.push(coord);
-    }
-    // Move right and down
-    for (var idx = pieceCoord.j - 1; idx >= 0 && idx < 8; idx--) {
-        var coord = { i: pieceCoord.i + 1, j: idx };
-        if (!isEmptyCell(coord)) break;
-        res.push(coord);
-    }
-    
-    // Move left and down
-    for (var idx = pieceCoord.j - 1; idx >= 0 && idx < 8; idx--) {
-        var coord = { i: pieceCoord.i + 1, j: idx };
-        if (!isEmptyCell(coord)) break;
-        res.push(coord);
-   
-    }
-
-    return res;
-}
-
-function getAllPossibleCoordsRook(currCell) {
-    var res = [];
-    // Move rook up
-    getPossibleCoords(1)
-
-    //Move rook down
-    
-
-    //Move rook right
-    
-    //Move rook left
-    
-    return res;
-}
 
 function getAllPossibleCoordsPawn(pieceCoord, isWhite) {
     var res = [];
 
     var diff = (isWhite) ? - 1 : 1;
     var nextCoord = { i: pieceCoord.i + diff, j: pieceCoord.j };
-    if (isEmptyCell(nextCoord)) res.push(nextCoord);
+    if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord);
     else return res;
 
     if ((pieceCoord.i === 1 && !isWhite) || (pieceCoord.i === 6 && isWhite)) {
         diff *= 2;
         nextCoord = { i: pieceCoord.i + diff, j: pieceCoord.j };
-        if (isEmptyCell(nextCoord)) res.push(nextCoord);
+        if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord);
     }
     return res;
+}
+
+
+// finished
+function getAllPossibleCoordsRook(pieceCoord) {
+    var res = [];
+    var nextCoord
+    // Move rook up
+    nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j}
+    for (let i = nextCoord.i; i < 8; i++) {
+        nextCoord = {i: i, j: pieceCoord.j}
+        if (!isEmptyCell(nextCoord, pieceCoord)) break;
+        res.push(nextCoord);
+        
+    }
+
+
+
+    //Move rook down
+    nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j}
+    for (let i = nextCoord.i; i >= 0; i--) {
+            nextCoord = {i: i, j: pieceCoord.j}
+
+            if (!isEmptyCell(nextCoord, pieceCoord)) break;
+            res.push(nextCoord);
+
+        }
+
+    
+
+    //Move rook right
+    nextCoord = {i: pieceCoord.i, j: pieceCoord.j + 1}
+    for (let j = nextCoord.j; j < 8; j++) {
+            nextCoord = {i: pieceCoord.i, j: j}
+
+            if (!isEmptyCell(nextCoord, pieceCoord)) break;
+            res.push(nextCoord);
+
+        }
+    
+
+    //Move rook left
+    nextCoord = {i: pieceCoord.i , j: pieceCoord.j - 1}
+    for (let j = nextCoord.j; j >= 0 ; j--) {
+            nextCoord = {i: pieceCoord.i, j: j}
+
+            if (!isEmptyCell(nextCoord, pieceCoord)) break;
+            res.push(nextCoord);
+
+        
+    
+
+        }
+        return res;
+}
+
+
+//Finished
+function getAllPossibleCoordsBishop(pieceCoord) {
+    var res = [];
+    var diff = 1
+    var nextCoord = { i: pieceCoord.i, j: pieceCoord.j };
+
+    // White turn right and forward
+    nextCoord = { i: pieceCoord.i, j: pieceCoord.j };
+    while (nextCoord.j < 8 && nextCoord.j >= 0 && nextCoord.i < 8 && nextCoord.i >= 0) {
+        
+        nextCoord = {i: nextCoord.i + diff, j: nextCoord.j + diff}
+        console.log("🚀 ~ file: main.js ~ line 272 ~ getAllPossibleCoordsBishop ~ nextCoord", nextCoord)
+        if (!isEmptyCell(nextCoord, pieceCoord)) break;
+        res.push(nextCoord);
+    }
+
+    //White turn left and up
+    nextCoord = { i: pieceCoord.i, j: pieceCoord.j };
+    while (nextCoord.j < 8 && nextCoord.j >= 0 && nextCoord.i < 8 && nextCoord.i >= 0) {
+        nextCoord = {i: nextCoord.i + -diff, j: nextCoord.j + diff}
+
+        if (!isEmptyCell(nextCoord, pieceCoord)) break;
+        res.push(nextCoord);
+    }
+    // Move right and down
+    nextCoord = { i: pieceCoord.i, j: pieceCoord.j };
+    while (nextCoord.j < 8 && nextCoord.j >= 0 && nextCoord.i < 8 && nextCoord.i >= 0) {
+        nextCoord = {i: nextCoord.i + diff, j: nextCoord.j + -diff}
+
+        if (!isEmptyCell(nextCoord, pieceCoord)) break;
+        res.push(nextCoord);
+    }
+    
+    // Move left and down
+    nextCoord = { i: pieceCoord.i, j: pieceCoord.j };
+
+    while (nextCoord.j < 8 && nextCoord.j > 0 && nextCoord.i < 8 && nextCoord.i >= 0) {
+        nextCoord = {i: nextCoord.i + -diff, j: nextCoord.j + -diff}
+
+        if (!isEmptyCell(nextCoord, pieceCoord)) break;
+        res.push(nextCoord);
+   
+    }
+
+    return res;
+}
+
+// Finished
+function getAllPossibleCoordsKnight(pieceCoord) {
+    var res = [];
+    var nextCoord;
+// Knight moves step right two steps up 
+    nextCoord = {i: pieceCoord.i - 2, j: pieceCoord.j + 1}
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
+
+    }
+
+// Knight moves step right two steps down
+    nextCoord = {i: pieceCoord.i - 2, j: pieceCoord.j - 1}
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
+
+    }
+
+// Knight moves step left two steps up
+    nextCoord = {i: pieceCoord.i + 2, j: pieceCoord.j - 1}
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >=0) {
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
+
+    }
+
+// Knight moves step left two steps down
+    nextCoord = {i: pieceCoord.i + 2, j: pieceCoord.j + 1}
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
+
+    }
+
+//Knight moves two step right one step up
+
+    nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j + 2}
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
+
+    }
+
+//Knight moves two step right one step down
+    nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j + 2}
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
+
+    }
+
+//Knight moves two step left one step down
+    nextCoord = {i: pieceCoord.i - 1, j: pieceCoord.j - 2}
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
+
+    }
+
+//Knight moves two steps left one step up
+    nextCoord = {i: pieceCoord.i + 1, j: pieceCoord.j - 2}
+    if (nextCoord.i < 8 && nextCoord.i >= 0 && nextCoord.j < 8 && nextCoord.j >= 0) {
+                if (isEmptyCell(nextCoord, pieceCoord)) res.push(nextCoord)
+
+    }
+
+    return res;
+}
+
+function getAllPossibleKing(pieceCoord) {
+    var res = [];
+    
+
+    //Move up
+
+    if (isEmptyCell(({i: pieceCoord.i - 1, j: pieceCoord.j}), pieceCoord)) res.push({i: pieceCoord.i - 1, j: pieceCoord.j})
+    
+    //Move left and up
+    if (isEmptyCell(({i: pieceCoord.i - 1, j: pieceCoord.j - 1}), pieceCoord)) res.push({i: pieceCoord.i - 1, j: pieceCoord.j - 1})
+
+    //Move right and up
+    if (isEmptyCell(({i: pieceCoord.i - 1, j: pieceCoord.j + 1}), pieceCoord)) res.push({i: pieceCoord.i - 1, j: pieceCoord.j + 1})
+
+    //Move down
+    if (isEmptyCell(({i: pieceCoord.i + 1, j: pieceCoord.j}), pieceCoord)) res.push({i: pieceCoord.i + 1, j: pieceCoord.j})
+
+    //Move down and right
+    if (isEmptyCell(({i: pieceCoord.i + 1, j: pieceCoord.j + 1}), pieceCoord)) res.push({i: pieceCoord.i + 1, j: pieceCoord.j + 1})
+
+    //Move down and left
+    if (isEmptyCell(({i: pieceCoord.i + 1, j: pieceCoord.j - 1}), pieceCoord)) res.push({i: pieceCoord.i + 1, j: pieceCoord.j - 1})
+    if (isEmptyCell(({i: pieceCoord.i, j: pieceCoord.j + 1}), pieceCoord)) res.push({i: pieceCoord.i, j: pieceCoord.j + 1})
+    if (isEmptyCell(({i: pieceCoord.i, j: pieceCoord.j - 1}), pieceCoord)) res.push({i: pieceCoord.i, j: pieceCoord.j - 1})
+
+    return res
+
+}
+
+function getAllPossibleQueen(pieceCoord) {
+    var res1
+    var res2
+
+    var res1 = (getAllPossibleCoordsBishop(pieceCoord))
+
+    var res2 = (getAllPossibleCoordsRook(pieceCoord))
+    
+
+    return res1.concat(res2)
 }
