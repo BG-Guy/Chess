@@ -5,7 +5,7 @@
 
 
 body {
-    background-color: rgb(230, 230, 230);
+    background-color: whitesmoke;
     text-align: center;
 }
 
@@ -23,15 +23,25 @@ body {
 .board-container {
     display: flex;
     align-items: center;
-    justify-content: center;
-    min-height: 90vh;
+    justify-content: space-around;
+    min-height: 90%;
     flex-direction: column;
+    background-color: #D5DBDB;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    width: 70vw;
+    
 }
 
 .game-over-modal {
     width: 20%;
-    background-color: rgb(194, 194, 194);
+    background-color: #F8C471;
     border-radius: 10px;
+    z-index: 10;
+    position: absolute;
+    left: auto;
+    top: auto;
+    padding: 1rem;
     
 }
 
@@ -39,6 +49,8 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
+    justify-content: center;
+    height: 100vh;
     
 }
 
@@ -53,6 +65,17 @@ body {
 
 .selected {
     outline: 5px solid orange;
+}
+
+.restart-game {
+    background-color: rgb(141, 141, 141);
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+}
+
+.restart-game:hover {
+    cursor: pointer;
 }
 
 

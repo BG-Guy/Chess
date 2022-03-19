@@ -64,11 +64,11 @@ function renderTimeBlack(minutesBlack, secondsBlack) {
 
 function renderTimeWhite(minutesWhite, secondsWhite) {
   minutesWhite =
-    minutesWhite.length < 2
+    minutesWhite.toString().length < 2
       ? `${0}${Math.floor(gTimeWhite / 60)}`
       : `${Math.floor(gTimeWhite / 60)}`;
   secondsWhite =
-    secondsWhite.length < 2 ? `${0}${secondsWhite}` : `${secondsWhite}`;
+    secondsWhite.toString().length < 2 ? `${0}${secondsWhite}` : `${secondsWhite}`;
 
   elGameTimeWhite.innerHTML = `${minutesWhite}:${secondsWhite}`;
 }

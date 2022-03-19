@@ -24,8 +24,18 @@ var gEatenPiecesWhite = []
 function restartGame() {
   gBoard = buildBoard();
   renderBoard(gBoard);
-  setTime(gMinutes);
-  elGameOverModal.hidden = true
+  setGame()
+  
+}
+
+function setGame() {
+    clearInterval(gIntervalBlack);
+    clearInterval(gIntervalWhite);
+    setTime(gMinutes);
+    elGameOverModal.hidden = true
+    gEatenPiecesBlack = []
+    gEatenPiecesWhite = []
+    renderEatenPieces()
 }
 
 function buildBoard() {

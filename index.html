@@ -7,19 +7,20 @@
     
     <body onload="restartGame()" >
         <div class="game-container">
-            <div class="settings-container">
-                <button id="5" class="game-time-btns">5 Minutes</button>
-                <button id="10" class="game-time-btns">10 Minutes</button>
-                <button id="20" class="game-time-btns">20 Minutes</button>
-            </div>
-            <button onclick="restartGame()">Restart</button>
+            
             <div class="game-over-modal" hidden="true">
                 <h1>GAME OVER</h1>
                 <h2 class="winner-msg" >MSG</h2>
-                <button onclick="restartGame()" >Try again?</button>
+                <button class="restart-game" onclick="restartGame()" >Try again?</button>
             </div>
     
             <div class="board-container">
+                <div class="settings-container">
+                    <button id="5" class="game-time-btns">5 Minutes</button>
+                    <button id="10" class="game-time-btns">10 Minutes</button>
+                    <button id="20" class="game-time-btns">20 Minutes</button>
+                </div>
+                <button class="restart-game" onclick="restartGame()">Restart</button>
                 <h1>Playing Chess </h1>
                 <span class="game-time p-white" > Select Time</span>
                 <span class="eaten-pieces-white"></span>
