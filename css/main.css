@@ -1,7 +1,48 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+}
+
+
 body {
-    background-color: black;
+    background-color: rgb(230, 230, 230);
     text-align: center;
 }
+
+.game-time-btns {
+    padding: .5rem;
+    background-color:#AEB6BF ;
+    border: none;
+    border-radius: 5px;
+}
+
+.game-time-btns:hover {
+    cursor: pointer;
+}
+
+.board-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+    flex-direction: column;
+}
+
+.game-over-modal {
+    width: 20%;
+    background-color: rgb(194, 194, 194);
+    border-radius: 10px;
+    
+}
+
+.game-container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+
 
 .black {
     background-color: gray
@@ -29,6 +70,7 @@ body {
     text-align: center;
     font-size:1.4em;
 }
+
 
 .can-eat {
     background-color:red;
